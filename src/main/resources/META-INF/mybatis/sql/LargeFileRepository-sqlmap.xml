@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap 
+            PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+            "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="com.example.domain.repository.LargeFileRepository">
+
+    <resultMap id="todo" class="com.example.domain.model.LargeFile">
+        <result property="id" column="id" />
+        <result property="fileName" column="file_name" />
+        <result property="content" column="content" typeHandler="BlobInputStreamTypeHandler" />
+    </resultMap>
+
+    <select id="findOne" parameterClass="java.lang.String" resultMap="todo">
+        <![CDATA[
+        SELECT
+            id,
+            file_name,
+            content
+        FROM
+            large_file
+        WHERE
+            id = #id#
+        ]]>
+    </select>
+
+    <insert id="create" parameterClass="com.example.domain.model.LargeFile">
+        <![CDATA[
+        INSERT INTO large_file
+        (
+            id,
+            file_name,
+            content
+        )
+        VALUES
+        (
+            #id#,
+            #fileName#,
+            #content,handler=BlobInputStreamTypeHandler#
+        )
+        ]]>
+    </insert>
+
+</sqlMap>
