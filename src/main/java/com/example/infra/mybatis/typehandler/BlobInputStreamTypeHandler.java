@@ -25,6 +25,9 @@ public class BlobInputStreamTypeHandler extends AbstractLobTypeHandler {
 
     @Override
     public Object valueOf(String s) {
+        if (s == null) {
+            return null;
+        }
         return new ByteArrayInputStream(s.getBytes());
     }
 
